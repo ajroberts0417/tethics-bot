@@ -45,9 +45,6 @@ async def on_message(msg: discord.Message):
     if msg.content.strip() == "!1:1":
         # get discord user from message
         author = msg.author
-        print(msg)
-        print(msg.channel)
-        print(msg.author)
         online_users = get_active_users(msg.channel)
 
         match = random.choice(online_users)

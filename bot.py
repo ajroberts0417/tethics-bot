@@ -85,10 +85,11 @@ async def on_message(msg: discord.Message):
         things = get_things()
         message = ":bar_chart:  **List of things** :pencil:\n\n"
         for thing in things:
-            ratio = round(
-                float(thing["likes"]) / float(thing["dislikes"] + thing["likes"]) * 100,
-                1,
-            )
+            ratings_count = thing["dislikes"] + thing["likes"]
+            if ratings_count > 0:
+                ratio = round(float(thing["likes"]) / float(ratings_count) * 100, 1)
+            else:
+                ratio = "N/A"
             desc = "**{name}** - {ratio}% - Likes: {likes} // Dislikes: {dislikes}\n".format(
                 ratio=ratio, **thing
             )
@@ -103,7 +104,7 @@ async def on_message(msg: discord.Message):
             name = rating["thing"]["name"]
             emoji = "✅" if rating["like"] else "❌"
 
-            desc = f"**{name}** - {emoji}"
+            desc = f"**{name}** - {emoji}\n"
             message += desc
         await msg.channel.send(message)
 
